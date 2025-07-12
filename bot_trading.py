@@ -40,7 +40,7 @@ async def run():
     await app_bot.initialize()
     await app_bot.start()
     await app_bot.bot.set_webhook(f"{URL}/webhook")
-    print("🚀 Webhook conectado")
+    print("✅ Webhook conectado")
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
