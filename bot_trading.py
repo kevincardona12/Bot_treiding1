@@ -16,7 +16,7 @@ PORT = int(os.getenv("PORT", 10000))
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("👋 Bot activo. Usa /senal.")
 
-async def señal(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def senal(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("🔔 Senal: 🟢 COMPRA (ejemplo)")
 
 app_bot = ApplicationBuilder().token(TOKEN).build()
