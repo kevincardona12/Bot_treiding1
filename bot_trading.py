@@ -14,14 +14,14 @@ PORT = int(os.getenv("PORT", 10000))
 
 # Bot comandos
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("👋 Bot activo. Usa /señal.")
+    await update.message.reply_text("👋 Bot activo. Usa /senal.")
 
 async def señal(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("🔔 Señal: 🟢 COMPRA (ejemplo)")
+    await update.message.reply_text("🔔 Senal: 🟢 COMPRA (ejemplo)")
 
 app_bot = ApplicationBuilder().token(TOKEN).build()
 app_bot.add_handler(CommandHandler("start", start))
-app_bot.add_handler(CommandHandler("señal", señal))
+app_bot.add_handler(CommandHandler("senal", senal))
 
 # Flask para webhook
 app = Flask(__name__)
