@@ -8,7 +8,7 @@ from telegram.ext import (
 
 logging.basicConfig(level=logging.INFO)
 
-TOKEN = os.getenv("8076387869:AAEZus_gajoNq2Rof4947w0m2tacpIb6Xds")
+TOKEN = os.getenv("TELEGRAM_TOKEN")
 URL = os.getenv("RENDER_EXTERNAL_URL")
 PORT = int(os.getenv("PORT", 10000))
 
