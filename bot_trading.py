@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.INFO)
 
 TOKEN = os.getenv("TELEGRAM_TOKEN")
 URL = os.getenv("RENDER_EXTERNAL_URL")
-PORT = int(os.getenv("PORT", 10000))
+PORT = int(os.getenv("PORT", 4000))
 
 # Bot comandos
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
