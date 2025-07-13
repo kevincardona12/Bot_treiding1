@@ -1,48 +1,42 @@
-
-import os, asyncio, logging
-from flask import Flask, request, Response
+import os
+from flask import Flask, request
 from telegram import Update
 from telegram.ext import (
-    ApplicationBuilder, CommandHandler, ContextTypes,
+    ApplicationBuilder, CommandHandler, ContextTypes
 )
 
-logging.basicConfig(level=logging.INFO)
-
+# Variables de entorno
 TOKEN = os.getenv("TELEGRAM_TOKEN")
 URL = os.getenv("RENDER_EXTERNAL_URL")
-PORT = int(os.getenv("PORT", 4000))
 
-# Bot comandos
+# Crear aplicación Flask y bot
+app = Flask(__name__)
+bot_app = ApplicationBuilder().token(TOKEN).build()
+
+# Comandos del bot
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("👋 Bot activo. Usa /senal.")
+    await update.message.reply_text("👋 ¡Bot activo! Usa /senal")
 
 async def senal(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("🔔 Senal: 🟢 COMPRA (ejemplo)")
+    await update.message.reply_text("📈 Señal: 🟢 COMPRA (ejemplo)")
 
-app_bot = ApplicationBuilder().token(TOKEN).build()
-app_bot.add_handler(CommandHandler("start", start))
-app_bot.add_handler(CommandHandler("senal", senal))
+# Añadir comandos
+bot_app.add_handler(CommandHandler("start", start))
+bot_app.add_handler(CommandHandler("senal", senal))
 
-# Flask para webhook
-app = Flask(__name__)
-
-@app.route("/")
-def health():
-    return "✅ OK"
-
+# Ruta webhook para Telegram
 @app.route("/webhook", methods=["POST"])
-def webhook():
-    update = Update.de_json(request.get_json(force=True), app_bot.bot)
-    asyncio.create_task(app_bot.update_queue.put(update))
-    return Response("OK", status=200)
+async def webhook():
+    update = Update.de_json(request.get_json(force=True), bot_app.bot)
+    await bot_app.process_update(update)
+    return "OK"
 
-async def run():
-    await app_bot.initialize()
-    await app_bot.start()
-    await app_bot.bot.set_webhook(f"{URL}/webhook")
-    print("✅ Webhook conectado")
-
+# Ejecutar en local o entorno con gunicorn
 if __name__ == "__main__":
-    loop = asyncio.get_event_loop()
-    loop.create_task(run())
-    app.run(host="0.0.0.0", port=PORT)
+    import asyncio
+    async def main():
+        await bot_app.initialize()
+        await bot_app.bot.set_webhook(f"{URL}/webhook")
+        print("✅ Webhook conectado")
+        await bot_app.start()
+    asyncio.run(main())
