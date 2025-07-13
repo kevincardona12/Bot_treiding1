@@ -8,7 +8,6 @@ from telegram.ext import (
 # Variables de entorno
 TOKEN = os.getenv("TELEGRAM_TOKEN")
 URL = os.getenv("RENDER_EXTERNAL_URL")
-const port = process.env.PORT || 10000
 
 # Crear aplicación Flask y bot
 app = Flask(__name__)
