@@ -1,5 +1,6 @@
 import os
-from flask import Flask, request
+from flask import Flask
+app = Flask(__name__)
 from telegram import Update
 from telegram.ext import (
     ApplicationBuilder, CommandHandler, ContextTypes
